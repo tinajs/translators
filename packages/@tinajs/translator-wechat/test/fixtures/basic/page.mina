@@ -1,0 +1,29 @@
+<config>
+{
+  "name": "mina"
+}
+</config>
+
+<style>
+text.blue {
+  color: #00f;
+}
+</style>
+
+<template>
+  <view>
+    <text class="blue">{{msg}}</text>
+  </view>
+</template>
+
+<script>
+require('./common')
+
+module.exports = {
+  onLoad () {
+    this.setData({
+      msg: 'Hi Page',
+    })
+  },
+}
+</script>

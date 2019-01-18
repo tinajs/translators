@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/tinajs/tina-translators/tree/master/packages/@tinajs/translator-wechat#readme",
   "devDependencies": {
+    "@tinajs/mina-loader": "^1.2.3",
+    "@tinajs/tina": "^1.5.0",
     "ava": "^1.0.1",
     "lint-staged": "^7.3.0",
     "memory-fs": "^0.4.1",
@@ -32,6 +34,8 @@
     "webpack-chain": "^5.0.1"
   },
   "peerDependencies": {
+    "@tinajs/mina-loader": ">=1.2.0",
+    "@tinajs/tina": ">=1.0.0",
     "webpack": "^4.0.0"
   },
   "dependencies": {
