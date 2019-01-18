@@ -1,0 +1,5 @@
+{
+  "lerna": "3.10.5",
+  "packages": ["packages/*"],
+  "version": "independent"
+}

@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "lerna": "^3.10.5"
+  },
+  "scripts": {
+    "precommit": "lerna run --concurrency 1 --stream precommit"
+  },
+  "dependencies": {
+    "debug": "^4.1.0"
+  }
+}
