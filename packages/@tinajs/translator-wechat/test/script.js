@@ -35,6 +35,25 @@ test(
 )
 
 test(
+  'component',
+  macros.webpack,
+  config => {
+    config.entry('/basic/component.js').add('./basic/component.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  (t, mfs) => {
+    t.true(
+      mfs
+        .readFileSync('/basic/component.js', 'utf8')
+        .includes(`__webpack_require__(8).Component.define(module.exports);`)
+    )
+  }
+)
+
+test(
   'export-identifier',
   macros.webpack,
   config => {

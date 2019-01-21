@@ -3,6 +3,7 @@ module.exports = options =>
     {},
     {
       translations: {
+        config: require.resolve('./translations/config'),
         script: require.resolve('./translations/script'),
       },
     },

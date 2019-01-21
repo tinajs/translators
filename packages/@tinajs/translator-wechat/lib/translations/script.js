@@ -1,9 +1,19 @@
 const template = require('@babel/template').default
 const visit = require('../utils/visit')
+const isComponent = require('../utils/is-component')
 
 const DEFAULT_EXPORT_NAME = '__tina_default_export__'
+const LAYER = {
+  PAGE: 'Page',
+  COMPONENT: 'Component',
+}
+const TEMPLATES = {
+  DEFINE: template(`require('@tinajs/tina').LAYER.define(OPTIONS)`),
+}
 
 module.exports = function(source) {
+  let layer = isComponent(this) ? LAYER.COMPONENT : LAYER.PAGE
+
   let { code } = visit(source, () => ({
     AssignmentExpression(path) {
       if (
@@ -11,7 +21,10 @@ module.exports = function(source) {
         path.get('left.property').isIdentifier({ name: 'exports' })
       ) {
         path.insertAfter(
-          template.ast(`require('@tinajs/tina').Page.define(module.exports)`)
+          TEMPLATES.DEFINE({
+            LAYER: layer,
+            OPTIONS: 'module.exports',
+          })
         )
       }
     },
@@ -26,9 +39,10 @@ module.exports = function(source) {
       )
       path.replaceWith(template.ast(`export default ${DEFAULT_EXPORT_NAME}`))
       path.insertAfter(
-        template.ast(
-          `require('@tinajs/tina').Page.define(${DEFAULT_EXPORT_NAME})`
-        )
+        TEMPLATES.DEFINE({
+          LAYER: layer,
+          OPTIONS: DEFAULT_EXPORT_NAME,
+        })
       )
     },
   }))
