@@ -116,3 +116,41 @@ test(
     )
   }
 )
+
+test(
+  'export-double-times',
+  macros.webpack,
+  config => {
+    config
+      .entry('/basic/export-double-times.js')
+      .add('./basic/export-double-times.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  (t, mfs) => {
+    t.true(
+      mfs
+        .readFileSync('/basic/export-double-times.js', 'utf8')
+        .includes(`const __tina_default_export__ =`)
+    )
+    t.true(
+      mfs
+        .readFileSync('/basic/export-double-times.js', 'utf8')
+        .includes(`__webpack_exports__["default"] = (__tina_default_export__);`)
+    )
+    t.true(
+      mfs
+        .readFileSync('/basic/export-double-times.js', 'utf8')
+        .includes(
+          `__webpack_require__(9).Page.define(__tina_default_export__);`
+        )
+    )
+    t.false(
+      mfs
+        .readFileSync('/basic/export-double-times.js', 'utf8')
+        .includes(`__webpack_require__(9).Page.define(module.exports);`)
+    )
+  }
+)

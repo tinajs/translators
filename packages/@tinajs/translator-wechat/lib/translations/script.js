@@ -13,9 +13,13 @@ const TEMPLATES = {
 
 module.exports = function(source) {
   let layer = isComponent(this) ? LAYER.COMPONENT : LAYER.PAGE
+  let isExported = false
 
   let { code } = visit(source, () => ({
     AssignmentExpression(path) {
+      if (isExported) {
+        return
+      }
       if (
         path.get('left.object').isIdentifier({ name: 'module' }) &&
         path.get('left.property').isIdentifier({ name: 'exports' })
@@ -26,9 +30,13 @@ module.exports = function(source) {
             OPTIONS: 'module.exports',
           })
         )
+        isExported = true
       }
     },
     ExportDefaultDeclaration(path) {
+      if (isExported) {
+        return
+      }
       if (path.get('declaration').isIdentifier({ name: DEFAULT_EXPORT_NAME })) {
         return
       }
@@ -44,6 +52,7 @@ module.exports = function(source) {
           OPTIONS: DEFAULT_EXPORT_NAME,
         })
       )
+      isExported = true
     },
   }))
   return code
