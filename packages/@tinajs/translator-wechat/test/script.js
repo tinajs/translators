@@ -1,5 +1,6 @@
 import test from 'ava'
 import compiler from './helpers/compiler'
+import translator from '..'
 
 const noop = () => {}
 
@@ -9,8 +10,6 @@ const macros = {
     const stats = await compile()
 
     t.is(stats.compilation.errors.length, 0, stats.compilation.errors)
-
-    t.snapshot(mfs)
 
     test(t, mfs)
   },
@@ -24,15 +23,77 @@ test(
     config.module
       .rule('mina')
       .use('mina')
-      .options({
-        translations: {
-          script: require.resolve('..'),
-        },
-      })
+      .options(translator())
   },
   (t, mfs) => {
-    t.true(mfs.readFileSync('/basic/page.js', 'utf8').includes('module.exports = "TODO"'))
+    t.true(
+      mfs
+        .readFileSync('/basic/page.js', 'utf8')
+        .includes(`__webpack_require__(8).Page.define(module.exports);`)
+    )
+  }
+)
 
-    t.pass()
+test(
+  'export-identifier',
+  macros.webpack,
+  config => {
+    config
+      .entry('/basic/export-identifier.js')
+      .add('./basic/export-identifier.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  (t, mfs) => {
+    t.true(
+      mfs
+        .readFileSync('/basic/export-identifier.js', 'utf8')
+        .includes(`const __tina_default_export__ =`)
+    )
+    t.true(
+      mfs
+        .readFileSync('/basic/export-identifier.js', 'utf8')
+        .includes(`__webpack_exports__["default"] = (__tina_default_export__);`)
+    )
+    t.true(
+      mfs
+        .readFileSync('/basic/export-identifier.js', 'utf8')
+        .includes(
+          `__webpack_require__(8).Page.define(__tina_default_export__);`
+        )
+    )
+  }
+)
+
+test(
+  'export-object',
+  macros.webpack,
+  config => {
+    config.entry('/basic/export-object.js').add('./basic/export-object.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  (t, mfs) => {
+    t.true(
+      mfs
+        .readFileSync('/basic/export-object.js', 'utf8')
+        .includes(`const __tina_default_export__ =`)
+    )
+    t.true(
+      mfs
+        .readFileSync('/basic/export-object.js', 'utf8')
+        .includes(`__webpack_exports__["default"] = (__tina_default_export__);`)
+    )
+    t.true(
+      mfs
+        .readFileSync('/basic/export-object.js', 'utf8')
+        .includes(
+          `__webpack_require__(8).Page.define(__tina_default_export__);`
+        )
+    )
   }
 )

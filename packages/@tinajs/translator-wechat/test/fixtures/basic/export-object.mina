@@ -17,12 +17,12 @@ text.blue {
 </template>
 
 <script>
-require('./common')
+import './common'
 
 let foo = 'foo'
 foo.bar = 'bar'
 
-module.exports = {
+export default {
   onLoad () {
     this.setData({
       msg: 'Hi Page',

@@ -1,6 +1,7 @@
 <config>
 {
-  "name": "mina"
+  "name": "mina",
+  "component": true
 }
 </config>
 
@@ -23,9 +24,9 @@ let foo = 'foo'
 foo.bar = 'bar'
 
 module.exports = {
-  onLoad () {
+  ready () {
     this.setData({
-      msg: 'Hi Page',
+      msg: 'Hi Component',
     })
   },
 }

@@ -17,16 +17,18 @@ text.blue {
 </template>
 
 <script>
-require('./common')
+import './common'
 
 let foo = 'foo'
 foo.bar = 'bar'
 
-module.exports = {
+const options = {
   onLoad () {
     this.setData({
       msg: 'Hi Page',
     })
   },
 }
+
+export default options
 </script>
