@@ -16,13 +16,13 @@
     "access": "public"
   },
   "repository": {
-    "url": "tinajs/tina-translators",
+    "url": "tinajs/translators",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/tinajs/tina-translators/issues"
+    "url": "https://github.com/tinajs/translators/issues"
   },
-  "homepage": "https://github.com/tinajs/tina-translators/tree/master/packages/@tinajs/translator-wechat#readme",
+  "homepage": "https://github.com/tinajs/translators/tree/master/packages/@tinajs/translator-wechat#readme",
   "devDependencies": {
     "@tinajs/mina-loader": "^1.2.3",
     "@tinajs/tina": "^1.5.0",
