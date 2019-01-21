@@ -1,4 +1,4 @@
-const isComponent = require('../utils/is-component')
+const { updateLayer, LAYER } = require('../utils/layer')
 
 function json(str) {
   try {
@@ -9,6 +9,12 @@ function json(str) {
 }
 
 module.exports = function(source) {
-  isComponent(this, json(source).component)
+  const config = json(source)
+  const layer = Array.isArray(config.pages)
+    ? LAYER.APP
+    : config.component === true
+    ? LAYER.COMPONENT
+    : LAYER.PAGE
+  updateLayer(this, layer)
   return source
 }

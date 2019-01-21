@@ -1,18 +1,14 @@
 const template = require('@babel/template').default
 const visit = require('../utils/visit')
-const isComponent = require('../utils/is-component')
+const { getLayer } = require('../utils/layer')
 
 const DEFAULT_EXPORT_NAME = '__tina_default_export__'
-const LAYER = {
-  PAGE: 'Page',
-  COMPONENT: 'Component',
-}
 const TEMPLATES = {
   DEFINE: template(`require('@tinajs/tina').LAYER.define(OPTIONS)`),
 }
 
 module.exports = function(source) {
-  let layer = isComponent(this) ? LAYER.COMPONENT : LAYER.PAGE
+  let layer = getLayer(this)
   let isExported = false
 
   let { code } = visit(source, () => ({
