@@ -12,9 +12,6 @@ const getPath = context => relative(context.rootContext, context.resourcePath)
 
 function updateLayer(context, layer) {
   cache[getPath(context)] = layer
-  if (arguments.length === 1) {
-    return cache[path]
-  }
 }
 
 function getLayer(context) {
