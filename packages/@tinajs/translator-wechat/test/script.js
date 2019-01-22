@@ -5,13 +5,17 @@ import translator from '..'
 const noop = () => {}
 
 const macros = {
-  async webpack(t, config = noop, test = noop) {
+  async webpack(t, config = noop, test = noop, snapshots = []) {
     const { compile, mfs } = compiler(config)
     const stats = await compile()
 
     t.is(stats.compilation.errors.length, 0, stats.compilation.errors)
 
     test(t, mfs)
+
+    snapshots.forEach((file) => {
+      t.snapshot(mfs.readFileSync(file, 'utf8'), { id: file })
+    })
   },
 }
 
@@ -31,7 +35,10 @@ test(
         .readFileSync('/basic/page.js', 'utf8')
         .includes(`__webpack_require__(8).Page.define(module.exports);`)
     )
-  }
+  },
+  [
+    '/basic/page.js',
+  ]
 )
 
 test(

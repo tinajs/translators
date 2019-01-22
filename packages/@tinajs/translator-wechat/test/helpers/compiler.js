@@ -22,6 +22,13 @@ export default (use = () => {}) => {
     .loader(resolve('@tinajs/mina-loader'))
     .end()
 
+  config.externals({
+    '@tinajs/tina': 'Tina',
+  })
+
+  config.optimization
+    .runtimeChunk('single')
+
   use(config)
 
   return {
