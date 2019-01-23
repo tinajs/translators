@@ -36,7 +36,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/app.js', 'utf8')
-    t.true(file.includes(`__webpack_require__(6).App.define(module.exports);`))
+    t.true(file.includes(`).App.define(module.exports);`))
   }
 )
 
@@ -55,7 +55,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/page.js', 'utf8')
-    t.true(file.includes(`__webpack_require__(8).Page.define(module.exports);`))
+    t.true(file.includes(`).Page.define(module.exports);`))
   }
 )
 
@@ -74,9 +74,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/component.js', 'utf8')
-    t.true(
-      file.includes(`__webpack_require__(8).Component.define(module.exports);`)
-    )
+    t.true(file.includes(`).Component.define(module.exports);`))
   }
 )
 
@@ -101,11 +99,7 @@ test(
     t.true(
       file.includes(`__webpack_exports__["default"] = (_tina_default_export);`)
     )
-    t.true(
-      file.includes(
-        `_tinajs_tina__WEBPACK_IMPORTED_MODULE_1___default.a.Page.define(_tina_default_export);`
-      )
-    )
+    t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
   }
 )
 
@@ -129,11 +123,7 @@ test(
     t.true(
       file.includes(`__webpack_exports__["default"] = (_tina_default_export);`)
     )
-    t.true(
-      file.includes(
-        `_tinajs_tina__WEBPACK_IMPORTED_MODULE_1___default.a.Page.define(_tina_default_export);`
-      )
-    )
+    t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
   }
 )
 
@@ -158,16 +148,8 @@ test(
     t.true(
       file.includes(`__webpack_exports__["default"] = (_tina_default_export);`)
     )
-    t.true(
-      file.includes(
-        `_tinajs_tina__WEBPACK_IMPORTED_MODULE_1___default.a.Page.define(_tina_default_export);`
-      )
-    )
-    t.false(
-      file.includes(
-        `_tinajs_tina__WEBPACK_IMPORTED_MODULE_1___default.a.Page.define(module.exports);`
-      )
-    )
+    t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
+    t.false(file.includes(`___default.a.Page.define(module.exports);`))
   }
 )
 
@@ -186,8 +168,6 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/manual.js', 'utf8')
-    t.false(
-      file.includes(`__webpack_require__(8).Page.define(module.exports);`)
-    )
+    t.false(file.includes(`).Page.define(module.exports);`))
   }
 )
