@@ -15,7 +15,7 @@ function updateLayer(context, layer) {
 }
 
 function getLayer(context) {
-  return cache[getPath(context)]
+  return cache[getPath(context)] || LAYER.PAGE
 }
 
 exports.updateLayer = updateLayer

@@ -1,0 +1,26 @@
+<style>
+text.blue {
+  color: #00f;
+}
+</style>
+
+<template>
+  <view>
+    <text class="blue">{{msg}}</text>
+  </view>
+</template>
+
+<script>
+require('./common')
+
+let foo = 'foo'
+foo.bar = 'bar'
+
+module.exports = {
+  onLoad () {
+    this.setData({
+      msg: 'Hi Page',
+    })
+  },
+}
+</script>

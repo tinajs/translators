@@ -154,6 +154,27 @@ test(
 )
 
 test(
+  'without-config',
+  macros.webpack,
+  {
+    chainWebpack: config => {
+      config
+        .entry('/basic/without-config.js')
+        .add('./basic/without-config.mina')
+      config.module
+        .rule('mina')
+        .use('mina')
+        .options(translator())
+    },
+    snapshots: ['/basic/without-config.js'],
+  },
+  (t, mfs) => {
+    const file = mfs.readFileSync('/basic/without-config.js', 'utf8')
+    t.true(file.includes(`).Page.define(module.exports);`))
+  }
+)
+
+test(
   'manual',
   macros.webpack,
   {
