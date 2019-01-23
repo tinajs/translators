@@ -1,0 +1,25 @@
+<config>
+{
+  "window": {
+    "navigationBarTitleText": "TodoMVC Lite"
+  },
+  "pages": [
+    "pages/home.mina"
+  ]
+}
+</config>
+
+<script>
+export default {
+  onLaunch () {
+    console.log('App Launched')
+  },
+}
+</script>
+
+<style>
+page {
+  font-size: 14px;
+  font-family: Helvetica, serif;
+}
+</style>

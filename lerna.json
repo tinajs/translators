@@ -1,5 +1,10 @@
 {
   "lerna": "3.10.5",
-  "packages": ["packages/@tinajs/*"],
+  "packages": ["packages/@tinajs/*", "examples/*"],
+  "command": {
+    "publish": {
+      "ignoreChanges": ["examples/*"]
+    }
+  },
   "version": "independent"
 }
