@@ -96,9 +96,7 @@ test(
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/export-identifier.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
-    t.true(
-      file.includes(`__webpack_exports__["default"] = (_tina_default_export);`)
-    )
+    t.true(file.includes(`exports.default = _tina_default_export;`))
     t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
   }
 )
@@ -120,9 +118,7 @@ test(
     // console.log(mfs.readFileSync('/basic/export-object.js', 'utf8'))
     const file = mfs.readFileSync('/basic/export-object.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
-    t.true(
-      file.includes(`__webpack_exports__["default"] = (_tina_default_export);`)
-    )
+    t.true(file.includes(`exports.default = _tina_default_export;`))
     t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
   }
 )
@@ -145,9 +141,7 @@ test(
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/export-double-times.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
-    t.true(
-      file.includes(`__webpack_exports__["default"] = (_tina_default_export);`)
-    )
+    t.true(file.includes(`exports.default = _tina_default_export;`))
     t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
     t.false(file.includes(`___default.a.Page.define(module.exports);`))
   }

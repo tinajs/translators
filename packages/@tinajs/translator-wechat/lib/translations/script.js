@@ -13,7 +13,7 @@ require('@tinajs/tina').LAYER.define(module.exports)
 import TINA_ID from '@tinajs/tina'
 const OPTIONS_ID = OPTIONS_VALUE
 TINA_ID.LAYER.define(OPTIONS_ID)
-export default OPTIONS_ID
+exports.default = OPTIONS_ID
 `,
 }
 
