@@ -36,6 +36,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/app.js', 'utf8')
+    t.true(file.includes(`).config.globals.App = App`))
     t.true(file.includes(`).App.define(module.exports);`))
   }
 )
@@ -55,6 +56,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/page.js', 'utf8')
+    t.true(file.includes(`).config.globals.Page = Page`))
     t.true(file.includes(`).Page.define(module.exports);`))
   }
 )
@@ -74,6 +76,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/component.js', 'utf8')
+    t.true(file.includes(`).config.globals.Component = Component`))
     t.true(file.includes(`).Component.define(module.exports);`))
   }
 )
@@ -97,6 +100,7 @@ test(
     const file = mfs.readFileSync('/basic/export-identifier.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
     t.true(file.includes(`exports.default = _tina_default_export;`))
+    t.true(file.includes(`___default.a.config.globals.Page = Page`))
     t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
   }
 )
@@ -119,6 +123,7 @@ test(
     const file = mfs.readFileSync('/basic/export-object.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
     t.true(file.includes(`exports.default = _tina_default_export;`))
+    t.true(file.includes(`___default.a.config.globals.Page = Page`))
     t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
   }
 )
@@ -142,6 +147,7 @@ test(
     const file = mfs.readFileSync('/basic/export-double-times.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
     t.true(file.includes(`exports.default = _tina_default_export;`))
+    t.true(file.includes(`___default.a.config.globals.Page = Page`))
     t.true(file.includes(`___default.a.Page.define(_tina_default_export);`))
     t.false(file.includes(`___default.a.Page.define(module.exports);`))
   }
@@ -164,6 +170,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/without-config.js', 'utf8')
+    t.true(file.includes(`).config.globals.Page = Page`))
     t.true(file.includes(`).Page.define(module.exports);`))
   }
 )
@@ -183,6 +190,7 @@ test(
   },
   (t, mfs) => {
     const file = mfs.readFileSync('/basic/manual.js', 'utf8')
+    t.false(file.includes(`).config.globals.Page = Page`))
     t.false(file.includes(`).Page.define(module.exports);`))
   }
 )
