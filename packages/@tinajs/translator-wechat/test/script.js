@@ -22,6 +22,25 @@ const macros = {
 }
 
 test(
+  'app',
+  macros.webpack,
+  {
+    chainWebpack: config => {
+      config.entry('/basic/app.js').add('./basic/app.mina')
+      config.module
+        .rule('mina')
+        .use('mina')
+        .options(translator())
+    },
+    snapshots: ['/basic/app.js'],
+  },
+  (t, mfs) => {
+    const file = mfs.readFileSync('/basic/app.js', 'utf8')
+    t.true(file.includes(`__webpack_require__(6).App.define(module.exports);`))
+  }
+)
+
+test(
   'page',
   macros.webpack,
   {
@@ -148,6 +167,27 @@ test(
       file.includes(
         `_tinajs_tina__WEBPACK_IMPORTED_MODULE_1___default.a.Page.define(module.exports);`
       )
+    )
+  }
+)
+
+test(
+  'manual',
+  macros.webpack,
+  {
+    chainWebpack: config => {
+      config.entry('/basic/manual.js').add('./basic/manual.mina')
+      config.module
+        .rule('mina')
+        .use('mina')
+        .options(translator())
+    },
+    snapshots: ['/basic/manual.js'],
+  },
+  (t, mfs) => {
+    const file = mfs.readFileSync('/basic/manual.js', 'utf8')
+    t.false(
+      file.includes(`__webpack_require__(8).Page.define(module.exports);`)
     )
   }
 )

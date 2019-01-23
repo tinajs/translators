@@ -1,0 +1,33 @@
+<config>
+{
+  "name": "mina"
+}
+</config>
+
+<style>
+text.blue {
+  color: #00f;
+}
+</style>
+
+<template>
+  <view>
+    <text class="blue">{{msg}}</text>
+  </view>
+</template>
+
+<script>
+const { Page } = require('@tinajs/tina')
+require('./common')
+
+let foo = 'foo'
+foo.bar = 'bar'
+
+Page.define({
+  onLoad () {
+    this.setData({
+      msg: 'Hi Page',
+    })
+  },
+})
+</script>

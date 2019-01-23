@@ -8,9 +8,9 @@
 
 <script>
 require('./common')
-App({
+module.exports = {
   onLaunch () {
     console.log('Hi App')
   },
-})
+}
 </script>
