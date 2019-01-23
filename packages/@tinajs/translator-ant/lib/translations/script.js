@@ -6,6 +6,7 @@ const DEFAULT_EXPORT_NAME = 'tina_default_export'
 
 const TEMPLATE = {
   CJS: `
+require('@tinajs/tina').config.globals.LAYER = LAYER
 require('@tinajs/tina').LAYER.define(module.exports)
 `,
   ESM: `
