@@ -1,0 +1,33 @@
+<config>
+{
+  "name": "mina",
+  "component": true
+}
+</config>
+
+<style>
+text.blue {
+  color: #00f;
+}
+</style>
+
+<template>
+  <view>
+    <text class="blue">{{msg}}</text>
+  </view>
+</template>
+
+<script>
+require('./common')
+
+let foo = 'foo'
+foo.bar = 'bar'
+
+module.exports = {
+  ready () {
+    this.setData({
+      msg: 'Hi Component',
+    })
+  },
+}
+</script>

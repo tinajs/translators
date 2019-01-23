@@ -1,0 +1,16 @@
+<config>
+{
+  "pages": [
+    "page.mina"
+  ]
+}
+</config>
+
+<script>
+require('./common')
+module.exports = {
+  onLaunch () {
+    console.log('Hi App')
+  },
+}
+</script>
