@@ -1,10 +1,14 @@
+const resolve = require.resolve
+
 module.exports = options =>
   Object.assign(
     {},
     {
       translations: {
-        config: require.resolve('./translations/config'),
-        script: require.resolve('./translations/script'),
+        config: [
+          resolve('@tinajs/translator-utils/lib/layer-marker-config-loader'),
+        ],
+        script: resolve('./translations/script'),
       },
     },
     options

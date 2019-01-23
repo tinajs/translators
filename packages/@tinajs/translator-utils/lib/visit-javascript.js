@@ -7,7 +7,7 @@ const visit = (source, visitor) =>
     plugins: [
       ({ types: t }) => {
         return {
-          name: 'Visitor from @tinajs/translator-wechat',
+          name: 'Visitor from TinaJS Translator',
           visitor: visitor(t),
         }
       },

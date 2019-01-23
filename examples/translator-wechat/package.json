@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@tinajs/tina": "^1.4.0",
+    "@tinajs/translator-utils": "^0.0.0",
     "wxio": "0.x"
   }
 }

@@ -1,4 +1,5 @@
-const { updateLayer, LAYER } = require('../utils/layer')
+const LAYER = require('./constant/layer')
+const { layerMarker } = require('./layer-marker')
 
 function json(str) {
   try {
@@ -15,6 +16,6 @@ module.exports = function(source) {
     : config.component === true
     ? LAYER.COMPONENT
     : LAYER.PAGE
-  updateLayer(this, layer)
+  layerMarker.update(this, layer)
   return source
 }

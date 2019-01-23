@@ -1,6 +1,5 @@
 const template = require('@babel/template').default
-const visit = require('../utils/visit')
-const { getLayer } = require('../utils/layer')
+const { visitJavaScript, layerMarker } = require('@tinajs/translator-utils')
 
 const TINA_PACKAGE_NAME = 'Tina'
 const DEFAULT_EXPORT_NAME = 'tina_default_export'
@@ -18,10 +17,10 @@ exports.default = OPTIONS_ID
 }
 
 module.exports = function(source) {
-  let layer = getLayer(this)
+  let layer = layerMarker.get(this)
   let isExported = false
 
-  let { code } = visit(source, () => ({
+  let { code } = visitJavaScript(source, () => ({
     AssignmentExpression(path) {
       if (isExported) {
         return
