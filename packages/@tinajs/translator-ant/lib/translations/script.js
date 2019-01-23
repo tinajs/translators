@@ -11,6 +11,7 @@ require('@tinajs/tina').LAYER.define(module.exports)
   ESM: `
 import TINA_ID from '@tinajs/tina'
 const OPTIONS_ID = OPTIONS_VALUE
+TINA_ID.config.globals.LAYER = LAYER
 TINA_ID.LAYER.define(OPTIONS_ID)
 exports.default = OPTIONS_ID
 `,
