@@ -5,15 +5,18 @@ import MemoryFS from 'memory-fs'
 
 const root = path.resolve(__dirname, '../fixtures/')
 
-const resolve = (file) => require.resolve(file)
+const resolve = file => require.resolve(file)
 
-export default (use = () => {}) => {
+export default (chainWebpack = () => {}) => {
   const mfs = new MemoryFS()
   const config = new Config()
 
   config.mode('none').context(root)
 
-  config.output.path('/').publicPath('/').filename('[name]')
+  config.output
+    .path('/')
+    .publicPath('/')
+    .filename('[name]')
 
   config.module
     .rule('mina')
@@ -26,10 +29,9 @@ export default (use = () => {}) => {
     '@tinajs/tina': 'Tina',
   })
 
-  config.optimization
-    .runtimeChunk('single')
+  config.optimization.runtimeChunk('single')
 
-  use(config)
+  chainWebpack(config)
 
   return {
     mfs,
