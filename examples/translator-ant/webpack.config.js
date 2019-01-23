@@ -24,7 +24,7 @@ module.exports = {
     path: resolve('dist'),
     filename: '[name]',
     publicPath: '/',
-    globalObject: 'wx',
+    globalObject: 'my',
   },
   module: {
     rules: [
