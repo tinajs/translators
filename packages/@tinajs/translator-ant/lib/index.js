@@ -10,6 +10,10 @@ module.exports = options =>
         ],
         script: resolve('./translations/script'),
       },
+      extensions: {
+        style: '.acss',
+        template: '.axml',
+      },
     },
     options
   )
