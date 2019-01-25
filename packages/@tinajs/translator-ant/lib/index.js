@@ -8,6 +8,7 @@ module.exports = options =>
         config: [
           resolve('@tinajs/translator-utils/lib/layer-marker-config-loader'),
         ],
+        template: resolve('./translations/template'),
         script: resolve('./translations/script'),
       },
       extensions: {
