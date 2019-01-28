@@ -69,3 +69,27 @@ test(
     t.true(warningDetailIncludes('official-account'))
   }
 )
+
+test('wxs', macro, {
+  chainWebpack: config => {
+    config.entry('/template/wxs.js').add('./template/wxs.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+    config.module
+      .rule('wxs')
+      .test(/\.wxs$/)
+      .use('wxs')
+      .loader(require.resolve('@tinajs/wxs-loader'))
+      .options({
+        name: '[name]-[hash:8].sjs',
+      })
+      .end()
+  },
+  snapshots: [
+    '/now-da624078.sjs',
+    '/padding-f3176854.sjs',
+    '/template/wxs.axml',
+  ],
+})

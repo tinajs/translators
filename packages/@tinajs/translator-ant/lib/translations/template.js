@@ -3,6 +3,7 @@ const { Parser } = require('htmlparser2')
 const render = require('htmlparser-to-html')
 const camelCase = require('camel-case')
 const kebabCase = require('kebab-case')
+const specific = require('./specific-tags')
 
 const DATASET_NAME_ROLE = 'data-mina-role'
 
@@ -63,7 +64,7 @@ function transform(source, onNode = () => {}, onWarning = () => {}) {
         reject(error)
         return
       }
-      walk(dom, node => onNode(node, { onWarning }))
+      walk(dom, node => onNode(node, { root: dom, onWarning }))
       resolve(render(dom))
     })
 
@@ -73,11 +74,12 @@ function transform(source, onNode = () => {}, onWarning = () => {}) {
   })
 }
 
-const transformNode = (node, { onWarning }) => {
+const transformNode = (node, { root, onWarning }) => {
   function tagName(before, after) {
     node.attribs[DATASET_NAME_ROLE] = before
     node.name = after
   }
+
   function attrName(before, after) {
     if (before === after) {
       return
@@ -85,6 +87,7 @@ const transformNode = (node, { onWarning }) => {
     node.attribs[after] = node.attribs[before]
     delete node.attribs[before]
   }
+
   function matchAndReplace(str, regex, replace) {
     let matched = str.match(regex)
     if (matched) {
@@ -93,6 +96,8 @@ const transformNode = (node, { onWarning }) => {
   }
 
   if (node.type === 'tag') {
+    specific(node, { root, onWarning })
+
     if (node.name in NON_BUILTIN_TAGNAME_MAPPING) {
       onWarning(
         new Error(
@@ -101,9 +106,11 @@ const transformNode = (node, { onWarning }) => {
       )
       tagName(node.name, NON_BUILTIN_TAGNAME_MAPPING[node.name])
     }
+
     if (node.name in UNAVAILABLE_TAGNAME_MAPPING) {
       tagName(node.name, UNAVAILABLE_TAGNAME_MAPPING[node.name])
     }
+
     for (let key in node.attribs) {
       if (key in COMMON_ATTR_MAPPING) {
         attrName(key, COMMON_ATTR_MAPPING[key])
