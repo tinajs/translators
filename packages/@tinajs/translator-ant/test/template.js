@@ -1,27 +1,10 @@
 import test from 'ava'
-import compiler from './helpers/compiler'
+import { createMacro } from './helpers/compiler'
 import translator from '..'
 
-const noop = () => {}
+const macro = createMacro(translator)
 
-const macros = {
-  async webpack(t, { chainWebpack = noop, snapshots = [] }, test = noop) {
-    const { compile, mfs } = compiler(chainWebpack)
-    const stats = await compile()
-
-    t.is(stats.compilation.errors.length, 0, stats.compilation.errors)
-
-    test(t, mfs, stats)
-
-    snapshots.forEach(file => {
-      t.snapshot(mfs.readFileSync(file, 'utf8'), {
-        id: `${t.title} - ${file}`,
-      })
-    })
-  },
-}
-
-test('attributes', macros.webpack, {
+test('attributes', macro, {
   chainWebpack: config => {
     config.entry('/template/attributes.js').add('./template/attributes.mina')
     config.module
@@ -32,7 +15,7 @@ test('attributes', macros.webpack, {
   snapshots: ['/template/attributes.axml'],
 })
 
-test('tagname-unavailable', macros.webpack, {
+test('tagname-unavailable', macro, {
   chainWebpack: config => {
     config
       .entry('/template/tagname-unavailable.js')
@@ -47,7 +30,7 @@ test('tagname-unavailable', macros.webpack, {
 
 test(
   'tagname-non-builtin',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config

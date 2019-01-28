@@ -7,7 +7,9 @@ const root = path.resolve(__dirname, '../fixtures/')
 
 const resolve = file => require.resolve(file)
 
-export default (chainWebpack = () => {}) => {
+const noop = () => {}
+
+export const compiler = (chainWebpack = () => {}) => {
   const mfs = new MemoryFS()
   const config = new Config()
 
@@ -48,4 +50,29 @@ export default (chainWebpack = () => {}) => {
       )
     },
   }
+}
+
+export const createMacro = translator => async (
+  t,
+  { chainWebpack = noop, snapshots = [] },
+  test = noop
+) => {
+  const { compile, mfs } = compiler(config => {
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+    chainWebpack(config)
+  })
+  const stats = await compile()
+
+  t.is(stats.compilation.errors.length, 0, stats.compilation.errors)
+
+  test(t, mfs, stats)
+
+  snapshots.forEach(file => {
+    t.snapshot(mfs.readFileSync(file, 'utf8'), {
+      id: `${t.title} - ${file}`,
+    })
+  })
 }

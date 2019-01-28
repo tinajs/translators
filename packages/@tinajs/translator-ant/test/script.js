@@ -1,36 +1,15 @@
 import test from 'ava'
-import compiler from './helpers/compiler'
+import { createMacro } from './helpers/compiler'
 import translator from '..'
 
-const noop = () => {}
-
-const macros = {
-  async webpack(t, { chainWebpack = noop, snapshots = [] }, test = noop) {
-    const { compile, mfs } = compiler(chainWebpack)
-    const stats = await compile()
-
-    t.is(stats.compilation.errors.length, 0, stats.compilation.errors)
-
-    test(t, mfs)
-
-    snapshots.forEach(file => {
-      t.snapshot(mfs.readFileSync(file, 'utf8'), {
-        id: `${t.title} - ${file}`,
-      })
-    })
-  },
-}
+const macro = createMacro(translator)
 
 test(
   'app',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config.entry('/basic/app.js').add('./basic/app.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/app.js'],
   },
@@ -43,14 +22,10 @@ test(
 
 test(
   'page',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config.entry('/basic/page.js').add('./basic/page.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/page.js'],
   },
@@ -63,14 +38,10 @@ test(
 
 test(
   'component',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config.entry('/basic/component.js').add('./basic/component.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/component.js'],
   },
@@ -83,16 +54,12 @@ test(
 
 test(
   'export-identifier',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config
         .entry('/basic/export-identifier.js')
         .add('./basic/export-identifier.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/export-identifier.js'],
   },
@@ -107,14 +74,10 @@ test(
 
 test(
   'export-object',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config.entry('/basic/export-object.js').add('./basic/export-object.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/export-object.js'],
   },
@@ -130,16 +93,12 @@ test(
 
 test(
   'export-double-times',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config
         .entry('/basic/export-double-times.js')
         .add('./basic/export-double-times.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/export-double-times.js'],
   },
@@ -155,16 +114,12 @@ test(
 
 test(
   'without-config',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config
         .entry('/basic/without-config.js')
         .add('./basic/without-config.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/without-config.js'],
   },
@@ -177,14 +132,10 @@ test(
 
 test(
   'manual',
-  macros.webpack,
+  macro,
   {
     chainWebpack: config => {
       config.entry('/basic/manual.js').add('./basic/manual.mina')
-      config.module
-        .rule('mina')
-        .use('mina')
-        .options(translator())
     },
     snapshots: ['/basic/manual.js'],
   },
