@@ -82,7 +82,6 @@ test(
     snapshots: ['/basic/export-object.js'],
   },
   (t, mfs) => {
-    // console.log(mfs.readFileSync('/basic/export-object.js', 'utf8'))
     const file = mfs.readFileSync('/basic/export-object.js', 'utf8')
     t.true(file.includes(`const _tina_default_export =`))
     t.true(file.includes(`exports.default = _tina_default_export;`))
