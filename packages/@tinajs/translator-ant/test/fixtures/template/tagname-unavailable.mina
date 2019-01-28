@@ -1,0 +1,11 @@
+<template>
+  <view>
+    <header>Header</header>
+    <ul>
+      <li>
+        <span>Hi</span>
+      </li>
+    </ul>
+    <footer>Footer</footer>
+  </view>
+</template>

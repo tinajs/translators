@@ -1,0 +1,29 @@
+<template>
+  <view>
+    <text wx:if="{{msg === 'blue'}}" class="blue">{{msg}}</text>
+    <text wx:elif="{{msg === 'red'}}" class="red">{{msg}}</text>
+    <text wx:else class="white">{{msg}}</text>
+    <view wx:for="{{items}}" wx:for-item="message" wx:for-index="id" wx:key="id">
+      {{ message.id }}: {{ message.content }}
+    </view>
+    <form bindsubmit="submit">
+      <input bindinput="input" bindchange="change" bindfocus="focus" />
+      <button bindtap="tap"></button>
+    </form>
+    <form bind:submit="submit">
+      <input bind:input="input" bind:change="change" bind:focus="focus" />
+      <button bind:tap="tap"></button>
+    </form>
+    <form catchsubmit="submit">
+      <input catchinput="input" catchchange="change" catchfocus="focus" />
+      <button catchtap="tap"></button>
+    </form>
+    <form catch:submit="submit">
+      <input catch:input="input" catch:change="change" catch:focus="focus" />
+      <button catch:tap="tap"></button>
+    </form>
+    <view data-foo />
+    <view data-foo-bar />
+    <view data-fooBar />
+  </view>
+</template>
