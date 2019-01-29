@@ -128,10 +128,6 @@ const transformNode = (node, { root, onWarning }) => {
   }
 }
 
-module.exports = function(source) {
-  const done = this.async()
-  transform(source, transformNode, warn => this.emitWarning(warn)).then(
-    code => done(null, code),
-    error => done(error)
-  )
+module.exports = async function(source, emitWarning) {
+  return await transform(source, transformNode, warn => emitWarning(warn))
 }

@@ -1,16 +1,28 @@
-const resolve = require.resolve
+const { getLayerType, ASTUtils } = require('@tinajs/translator-utils')
+const translateTemplate = require('./translations/template')
+const translateScript = require('./translations/script')
+
+async function transform(ast, { warning }) {
+  const config = ASTUtils.findBlock(ast, 'config')
+  const layer = getLayerType(config.content)
+
+  await ASTUtils.visitBlock(ast, async block => {
+    if (block.tag === 'script') {
+      block.content = translateScript(block.content, layer)
+    }
+    if (block.tag === 'template') {
+      block.content = await translateTemplate(block.content, warning)
+    }
+  })
+
+  return ast
+}
 
 module.exports = options =>
   Object.assign(
     {},
     {
-      translations: {
-        config: [
-          resolve('@tinajs/translator-utils/lib/layer-marker-config-loader'),
-        ],
-        template: resolve('./translations/template'),
-        script: resolve('./translations/script'),
-      },
+      transform,
       extensions: {
         style: '.acss',
         template: '.axml',
