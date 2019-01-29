@@ -29,6 +29,9 @@
     "prettier": "^1.15.3"
   },
   "dependencies": {
-    "@babel/core": "^7.2.2"
+    "@babel/core": "^7.2.2",
+    "domhandler": "^2.4.2",
+    "htmlparser-to-html": "0.0.6",
+    "htmlparser2": "^3.10.0"
   }
 }

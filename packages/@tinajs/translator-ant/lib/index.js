@@ -11,7 +11,7 @@ async function transform(ast, { warning }) {
       block.content = translateScript(block.content, layer)
     }
     if (block.tag === 'template') {
-      block.content = await translateTemplate(block.content, warning)
+      block.content = await translateTemplate(block.content, layer, warning)
     }
   })
 

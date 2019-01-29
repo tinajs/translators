@@ -1,9 +1,7 @@
-const Handler = require('domhandler')
-const { Parser } = require('htmlparser2')
-const render = require('htmlparser-to-html')
 const camelCase = require('camel-case')
 const kebabCase = require('kebab-case')
 const specific = require('./specific-tags')
+const { visitWxml } = require('@tinajs/translator-utils')
 
 const DATASET_NAME_ROLE = 'data-mina-role'
 
@@ -36,98 +34,62 @@ const NON_BUILTIN_TAGNAME_MAPPING = {
   'official-account': 'view',
 }
 
-/**
- * forked from https://github.com/jordancalder/walkers/blob/master/lib/walkers.js
- */
-function walk(nodes, onNode = () => {}) {
-  if (!nodes) {
-    throw new Error('nodes is required')
-  }
+module.exports = async function(source, config, emitWarning) {
+  const warning = error => emitWarning(error)
 
-  let node = nodes[0]
-
-  while (node) {
-    onNode(node)
-
-    if (node.children) {
-      walk(node.children, onNode)
+  const transformNode = (node, root) => {
+    function tagName(before, after) {
+      node.attribs[DATASET_NAME_ROLE] = before
+      node.name = after
     }
 
-    node = node.next
-  }
-}
-
-function transform(source, onNode = () => {}, onWarning = () => {}) {
-  return new Promise((resolve, reject) => {
-    const handler = new Handler((error, dom) => {
-      if (error) {
-        reject(error)
+    function attrName(before, after) {
+      if (before === after) {
         return
       }
-      walk(dom, node => onNode(node, { root: dom, onWarning }))
-      resolve(render(dom))
-    })
-
-    var parser = new Parser(handler, { xmlMode: true })
-    parser.write(source)
-    parser.done()
-  })
-}
-
-const transformNode = (node, { root, onWarning }) => {
-  function tagName(before, after) {
-    node.attribs[DATASET_NAME_ROLE] = before
-    node.name = after
-  }
-
-  function attrName(before, after) {
-    if (before === after) {
-      return
-    }
-    node.attribs[after] = node.attribs[before]
-    delete node.attribs[before]
-  }
-
-  function matchAndReplace(str, regex, replace) {
-    let matched = str.match(regex)
-    if (matched) {
-      replace(matched)
-    }
-  }
-
-  if (node.type === 'tag') {
-    specific(node, { root, onWarning })
-
-    if (node.name in NON_BUILTIN_TAGNAME_MAPPING) {
-      onWarning(
-        new Error(
-          `<${node.name}> is not a builtin component in alipay mini program.`
-        )
-      )
-      tagName(node.name, NON_BUILTIN_TAGNAME_MAPPING[node.name])
+      node.attribs[after] = node.attribs[before]
+      delete node.attribs[before]
     }
 
-    if (node.name in UNAVAILABLE_TAGNAME_MAPPING) {
-      tagName(node.name, UNAVAILABLE_TAGNAME_MAPPING[node.name])
-    }
-
-    for (let key in node.attribs) {
-      if (key in COMMON_ATTR_MAPPING) {
-        attrName(key, COMMON_ATTR_MAPPING[key])
+    function matchAndReplace(str, regex, replace) {
+      let matched = str.match(regex)
+      if (matched) {
+        replace(matched)
       }
-      matchAndReplace(key, /^bind:?(.*)$/, ([, name]) => {
-        attrName(key, camelCase(`bind.${name}`))
-      })
-      matchAndReplace(key, /^catch:?(.*)$/, ([, name]) => {
-        attrName(key, camelCase(`catch.${name}`))
-      })
-      matchAndReplace(key, /^data-(.*)$/, ([, name]) => {
-        attrName(key, kebabCase(`data-${name}`))
-      })
+    }
+
+    if (node.type === 'tag') {
+      specific(node, root)
+
+      if (node.name in NON_BUILTIN_TAGNAME_MAPPING) {
+        warning(
+          new Error(
+            `<${node.name}> is not a builtin component in alipay mini program.`
+          )
+        )
+        tagName(node.name, NON_BUILTIN_TAGNAME_MAPPING[node.name])
+      }
+
+      if (node.name in UNAVAILABLE_TAGNAME_MAPPING) {
+        tagName(node.name, UNAVAILABLE_TAGNAME_MAPPING[node.name])
+      }
+
+      for (let key in node.attribs) {
+        if (key in COMMON_ATTR_MAPPING) {
+          attrName(key, COMMON_ATTR_MAPPING[key])
+        }
+        matchAndReplace(key, /^bind:?(.*)$/, ([, name]) => {
+          attrName(key, camelCase(`bind.${name}`))
+        })
+        matchAndReplace(key, /^catch:?(.*)$/, ([, name]) => {
+          attrName(key, camelCase(`catch.${name}`))
+        })
+        matchAndReplace(key, /^data-(.*)$/, ([, name]) => {
+          attrName(key, kebabCase(`data-${name}`))
+        })
+      }
     }
   }
-}
 
-module.exports = async function(source, emitWarning) {
-  return await transform(source, transformNode, warn => emitWarning(warn))
+  return await visitWxml(source, transformNode)
 }
