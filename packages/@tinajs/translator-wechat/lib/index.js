@@ -2,8 +2,8 @@ const { getLayerType, ASTUtils } = require('@tinajs/translator-utils')
 const translateScript = require('./translations/script')
 
 function transform(ast) {
-  const config = ASTUtils.findBlock(ast, 'config')
-  const layer = getLayerType(config.content)
+  const config = ASTUtils.getConfig(ast)
+  const layer = getLayerType(config)
 
   ASTUtils.visitBlock(ast, block => {
     if (block.tag === 'script') {

@@ -1,15 +1,6 @@
 const LAYER = require('./constant/layer')
 
-function json(str) {
-  try {
-    return JSON.parse(str) || {}
-  } catch (e) {
-    return {}
-  }
-}
-
-module.exports = function(source) {
-  const config = json(source)
+module.exports = function(config) {
   return Array.isArray(config.pages)
     ? LAYER.APP
     : config.component === true
