@@ -32,9 +32,42 @@ const createSelectorRewriter = (name, onSelectors) => postcss.plugin(name, (opti
   })
 })
 
-module.exports = async function (source, { scope, layer }) {
+module.exports = async function (source, { config, scope, layer }) {
   const plugin = createSelectorRewriter('rewrite-selector', (selectors) => {
     selectors.each(selector => {
+      let polyfills = Object.keys(config.usingComponents || {})
+
+      selector.each((node) => {
+        function tagName (before, after) {
+          selector.insertAfter(
+            node,
+            selectorParser.attribute({
+              attribute: `${DATASET_NAME_ROLE}=${JSON.stringify(before)}`,
+            })
+          )
+          node.value = after
+        }
+
+        if (node.type === 'tag') {
+          /**
+           * non-builtin tagnames
+           */
+          if (
+            node.value in NON_BUILTIN_TAGNAME_MAPPING &&
+            !~polyfills.indexOf(node.value)
+          ) {
+            tagName(node.value, NON_BUILTIN_TAGNAME_MAPPING[node.value])
+          }
+
+          /**
+           * unavailable tagnames
+           */
+          if (node.value in UNAVAILABLE_TAGNAME_MAPPING) {
+            tagName(node.value, UNAVAILABLE_TAGNAME_MAPPING[node.value])
+          }
+        }
+      })
+
       /**
        * add scope id
        */

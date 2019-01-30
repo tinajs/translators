@@ -41,6 +41,9 @@ module.exports = async function(source, { layer, config, warning, scope }) {
 
       let polyfills = Object.keys(config.usingComponents || {})
 
+      /**
+       * non-builtin tagname
+       */
       if (
         node.name in NON_BUILTIN_TAGNAME_MAPPING &&
         !~polyfills.indexOf(node.name)
@@ -53,10 +56,16 @@ module.exports = async function(source, { layer, config, warning, scope }) {
         tagName(node.name, NON_BUILTIN_TAGNAME_MAPPING[node.name])
       }
 
+      /**
+       * unavailable tagnames
+       */
       if (node.name in UNAVAILABLE_TAGNAME_MAPPING) {
         tagName(node.name, UNAVAILABLE_TAGNAME_MAPPING[node.name])
       }
 
+      /**
+       * attributes mapping
+       */
       for (let key in node.attribs) {
         if (key in COMMON_ATTR_MAPPING) {
           attrName(key, COMMON_ATTR_MAPPING[key])
@@ -72,6 +81,9 @@ module.exports = async function(source, { layer, config, warning, scope }) {
         })
       }
 
+      /**
+       * add scope id
+       */
       if (layer === LAYER.COMPONENT) {
         node.attribs[`${DATASET_PREFIX_SCOPE}${scope}`] = null
       }

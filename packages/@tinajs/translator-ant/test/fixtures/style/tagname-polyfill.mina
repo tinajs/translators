@@ -1,0 +1,11 @@
+<config>
+{
+  "usingComponents": {
+    "official-account": "../resources/official-account.mina",
+  }
+}
+</config>
+
+<style>
+official-account { color: #000; }
+</style>

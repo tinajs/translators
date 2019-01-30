@@ -26,7 +26,6 @@ async function transform(ast, { warning }) {
         break
       case 'style':
         block.content = await translateStyle(content, options)
-        console.log('content', block.content)
         break
     }
   })

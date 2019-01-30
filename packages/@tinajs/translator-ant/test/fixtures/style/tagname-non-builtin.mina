@@ -1,0 +1,15 @@
+<style>
+rich-text { color: #000; }
+functional-page-navigator { color: #000; }
+audio { color: #000; }
+video { color: #000; }
+camera { color: #000; }
+live-player { color: #000; }
+live-pusher { color: #000; }
+open-data { color: #000; }
+ad { color: #000; }
+official-account { color: #000; }
+
+rich-text.rich-text { color: #000; }
+rich-text.rich-text[rich-text] { color: #000; }
+</style>
