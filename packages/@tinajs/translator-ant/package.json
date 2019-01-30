@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/tinajs/translators/tree/master/packages/@tinajs/translator-ant#readme",
   "devDependencies": {
-    "@tinajs/mina-loader": "^1.3.0",
+    "@tinajs/mina-loader": "^1.4.0",
     "@tinajs/tina": "^1.5.0",
     "@tinajs/wxs-loader": "^1.1.1",
     "ava": "^1.2.0",
