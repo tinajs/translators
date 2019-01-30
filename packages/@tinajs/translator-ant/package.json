@@ -44,6 +44,7 @@
     "@tinajs/translator-utils": "^0.0.0",
     "camel-case": "^3.0.0",
     "domutils": "^1.7.0",
+    "hasha": "^3.0.0",
     "kebab-case": "^1.0.0"
   }
 }

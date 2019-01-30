@@ -18,7 +18,7 @@ exports.default = OPTIONS_ID
 `,
 }
 
-module.exports = function(source, layer) {
+module.exports = function(source, { layer }) {
   let isExported = false
 
   let { code } = visitJavaScript(source, () => ({

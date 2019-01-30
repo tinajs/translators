@@ -1,9 +1,10 @@
 const camelCase = require('camel-case')
 const kebabCase = require('kebab-case')
 const specific = require('./specific-tags')
-const { visitWxml } = require('@tinajs/translator-utils')
+const { LAYER, visitWxml } = require('@tinajs/translator-utils')
 
 const DATASET_NAME_ROLE = 'data-mina-role'
+const DATASET_NAME_SCOPE = 'data-mina-scope'
 
 const COMMON_ATTR_MAPPING = {
   'wx:if': 'a:if',
@@ -34,9 +35,7 @@ const NON_BUILTIN_TAGNAME_MAPPING = {
   'official-account': 'view',
 }
 
-module.exports = async function(source, config, emitWarning) {
-  const warning = error => emitWarning(error)
-
+module.exports = async function(source, { layer, config, warning, scope }) {
   const transformNode = (node, root) => {
     function tagName(before, after) {
       node.attribs[DATASET_NAME_ROLE] = before
@@ -92,6 +91,10 @@ module.exports = async function(source, config, emitWarning) {
         matchAndReplace(key, /^data-(.*)$/, ([, name]) => {
           attrName(key, kebabCase(`data-${name}`))
         })
+      }
+
+      if (layer === LAYER.COMPONENT) {
+        node.attribs[DATASET_NAME_SCOPE] = scope
       }
     }
   }

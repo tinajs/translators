@@ -114,3 +114,14 @@ test('wxs', macro, {
     '/template/wxs.axml',
   ],
 })
+
+test('component', macro, {
+  chainWebpack: config => {
+    config.entry('/template/component.js').add('./template/component.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  snapshots: ['/template/component.axml'],
+})
