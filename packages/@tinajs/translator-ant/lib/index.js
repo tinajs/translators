@@ -1,7 +1,8 @@
 const hasha = require('hasha')
 const { getLayerType, ASTUtils } = require('@tinajs/translator-utils')
-const translateTemplate = require('./translations/template')
 const translateScript = require('./translations/script')
+const translateTemplate = require('./translations/template')
+const translateStyle = require('./translations/style')
 
 async function transform(ast, { warning }) {
   const config = ASTUtils.getConfig(ast)
@@ -9,18 +10,24 @@ async function transform(ast, { warning }) {
   const scope = hasha(ast.name).slice(0, 8)
 
   await ASTUtils.visitBlock(ast, async block => {
-    if (block.tag === 'script') {
-      block.content = translateScript(block.content, {
-        layer,
-      })
+    const { content } = block
+    const options = {
+      layer,
+      config,
+      scope,
+      warning,
     }
-    if (block.tag === 'template') {
-      block.content = await translateTemplate(block.content, {
-        layer,
-        config,
-        scope,
-        warning,
-      })
+    switch (block.tag) {
+      case 'script':
+        block.content = translateScript(content, options)
+        break
+      case 'template':
+        block.content = await translateTemplate(content, options)
+        break
+      case 'style':
+        block.content = await translateStyle(content, options)
+        console.log('content', block.content)
+        break
     }
   })
 

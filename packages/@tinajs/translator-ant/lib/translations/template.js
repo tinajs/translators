@@ -2,9 +2,7 @@ const camelCase = require('camel-case')
 const kebabCase = require('kebab-case')
 const specific = require('./specific-tags')
 const { LAYER, visitWxml } = require('@tinajs/translator-utils')
-
-const DATASET_NAME_ROLE = 'data-mina-role'
-const DATASET_NAME_SCOPE = 'data-mina-scope'
+const { DATASET_NAME_ROLE, DATASET_PREFIX_SCOPE, UNAVAILABLE_TAGNAME_MAPPING, NON_BUILTIN_TAGNAME_MAPPING } = require('../const')
 
 const COMMON_ATTR_MAPPING = {
   'wx:if': 'a:if',
@@ -14,25 +12,6 @@ const COMMON_ATTR_MAPPING = {
   'wx:for-index': 'a:for-index',
   'wx:for-item': 'a:for-item',
   'wx:key': 'a:key',
-}
-const UNAVAILABLE_TAGNAME_MAPPING = {
-  ul: 'view',
-  li: 'view',
-  header: 'view',
-  footer: 'view',
-  span: 'text',
-}
-const NON_BUILTIN_TAGNAME_MAPPING = {
-  'rich-text': 'view',
-  'functional-page-navigator': 'view',
-  audio: 'view',
-  video: 'view',
-  camera: 'view',
-  'live-player': 'view',
-  'live-pusher': 'view',
-  'open-data': 'view',
-  ad: 'view',
-  'official-account': 'view',
 }
 
 module.exports = async function(source, { layer, config, warning, scope }) {
@@ -94,7 +73,7 @@ module.exports = async function(source, { layer, config, warning, scope }) {
       }
 
       if (layer === LAYER.COMPONENT) {
-        node.attribs[DATASET_NAME_SCOPE] = scope
+        node.attribs[`${DATASET_PREFIX_SCOPE}${scope}`] = null
       }
     }
   }
