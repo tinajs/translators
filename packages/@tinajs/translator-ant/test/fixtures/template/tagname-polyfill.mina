@@ -1,0 +1,13 @@
+<config>
+{
+  "usingComponents": {
+    "official-account": "../resources/official-account.mina",
+  }
+}
+</config>
+
+<template>
+  <view>
+    <official-account />
+  </view>
+</template>

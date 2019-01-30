@@ -61,7 +61,12 @@ module.exports = async function(source, config, emitWarning) {
     if (node.type === 'tag') {
       specific(node, root)
 
-      if (node.name in NON_BUILTIN_TAGNAME_MAPPING) {
+      let polyfills = Object.keys(config.usingComponents || {})
+
+      if (
+        node.name in NON_BUILTIN_TAGNAME_MAPPING &&
+        !~polyfills.indexOf(node.name)
+      ) {
         warning(
           new Error(
             `<${node.name}> is not a builtin component in alipay mini program.`

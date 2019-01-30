@@ -70,6 +70,27 @@ test(
   }
 )
 
+test(
+  'tagname-polyfill',
+  macro,
+  {
+    chainWebpack: config => {
+      config
+        .entry('/template/tagname-polyfill.js')
+        .add('./template/tagname-polyfill.mina')
+      config.module
+        .rule('mina')
+        .use('mina')
+        .options(translator())
+    },
+    snapshots: ['/template/tagname-polyfill.axml'],
+  },
+  (t, mfs, stats) => {
+    let { warnings } = stats.compilation
+    t.is(warnings.length, 0)
+  }
+)
+
 test('wxs', macro, {
   chainWebpack: config => {
     config.entry('/template/wxs.js').add('./template/wxs.mina')
