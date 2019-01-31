@@ -6,11 +6,11 @@ const DEFAULT_EXPORT_NAME = 'tina_default_export'
 
 const TEMPLATE = {
   CJS: `
-require('@tinajs/tina').config.globals.LAYER = LAYER
-require('@tinajs/tina').LAYER.define(module.exports)
+require('@tinajs/tina/lib/ant/tina').config.globals.LAYER = LAYER
+require('@tinajs/tina/lib/ant/tina').LAYER.define(module.exports)
 `,
   ESM: `
-import TINA_ID from '@tinajs/tina'
+import TINA_ID from '@tinajs/tina/lib/ant/tina'
 const OPTIONS_ID = OPTIONS_VALUE
 TINA_ID.config.globals.LAYER = LAYER
 TINA_ID.LAYER.define(OPTIONS_ID)
