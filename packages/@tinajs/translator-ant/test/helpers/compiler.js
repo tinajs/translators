@@ -29,6 +29,7 @@ export const compiler = (chainWebpack = () => {}) => {
 
   config.externals({
     '@tinajs/tina': 'Tina',
+    '@tinajs/tina/lib/ant/tina': 'Tina',
   })
 
   config.optimization.runtimeChunk('single')
