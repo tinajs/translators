@@ -81,7 +81,7 @@ module.exports = async function(source, { layer, config, warning, scope }) {
           attrName(key, COMMON_ATTR_MAPPING[key])
         }
         matchAndReplace(key, /^bind:?(.*)$/, ([, name]) => {
-          attrName(key, camelCase(`bind.${name}`))
+          attrName(key, camelCase(`on.${name}`))
         })
         matchAndReplace(key, /^catch:?(.*)$/, ([, name]) => {
           attrName(key, camelCase(`catch.${name}`))
