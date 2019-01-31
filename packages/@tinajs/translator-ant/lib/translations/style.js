@@ -1,9 +1,14 @@
 const postcss = require('postcss')
 const selectorParser = require('postcss-selector-parser')
 const { LAYER } = require('@tinajs/translator-utils')
-const { DATASET_NAME_ROLE, DATASET_PREFIX_SCOPE, UNAVAILABLE_TAGNAME_MAPPING, NON_BUILTIN_TAGNAME_MAPPING } = require('../const')
+const {
+  CLASSNAME_PREFIX_ROLE,
+  CLASSNAME_PREFIX_SCOPE,
+  UNAVAILABLE_TAGNAME_MAPPING,
+  NON_BUILTIN_TAGNAME_MAPPING,
+} = require('../const')
 
-async function doPostcss (source, plugins) {
+async function doPostcss(source, plugins) {
   let result = postcss(plugins).process(source)
   let code
 
@@ -16,32 +21,33 @@ async function doPostcss (source, plugins) {
   return code
 }
 
-const createSelectorRewriter = (name, onSelector) => postcss.plugin(name, (options) => (root) => {
-  root.each(function walk (node) {
-    if (!node.selector) {
-      if (node.type === 'atrule') {
-        if (node.name === 'media' || node.name === 'supports') {
-          node.each(walk)
+const createSelectorRewriter = (name, onSelector) =>
+  postcss.plugin(name, options => root => {
+    root.each(function walk(node) {
+      if (!node.selector) {
+        if (node.type === 'atrule') {
+          if (node.name === 'media' || node.name === 'supports') {
+            node.each(walk)
+          }
         }
+        return
       }
-      return
-    }
-    node.selector = selectorParser(selectors => {
-      selectors.each(selector => onSelector(selector, options))
-    }).processSync(node.selector)
+      node.selector = selectorParser(selectors => {
+        selectors.each(selector => onSelector(selector, options))
+      }).processSync(node.selector)
+    })
   })
-})
 
-module.exports = async function (source, { config, scope, layer }) {
-  const plugin = createSelectorRewriter('rewrite-selector', (selector) => {
+module.exports = async function(source, { config, scope, layer }) {
+  const plugin = createSelectorRewriter('rewrite-selector', selector => {
     let polyfills = Object.keys(config.usingComponents || {})
 
-    selector.each((node) => {
-      function tagName (before, after) {
+    selector.each(node => {
+      function tagName(before, after) {
         selector.insertAfter(
           node,
-          selectorParser.attribute({
-            attribute: `${DATASET_NAME_ROLE}=${JSON.stringify(before)}`,
+          selectorParser.className({
+            value: `${CLASSNAME_PREFIX_ROLE}${before}`,
           })
         )
         node.value = after
@@ -73,13 +79,11 @@ module.exports = async function (source, { config, scope, layer }) {
     if (layer === LAYER.COMPONENT) {
       selector.insertAfter(
         selector.last,
-        selectorParser.attribute({
-          attribute: `${DATASET_PREFIX_SCOPE}${scope}`,
+        selectorParser.className({
+          value: `${CLASSNAME_PREFIX_SCOPE}${scope}`,
         })
       )
     }
   })
-  return await doPostcss(source, [
-    plugin(),
-  ])
+  return await doPostcss(source, [plugin()])
 }

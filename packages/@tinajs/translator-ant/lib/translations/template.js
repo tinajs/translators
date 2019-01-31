@@ -2,7 +2,12 @@ const camelCase = require('camel-case')
 const kebabCase = require('kebab-case')
 const specific = require('./specific-tags')
 const { LAYER, visitWxml } = require('@tinajs/translator-utils')
-const { DATASET_NAME_ROLE, DATASET_PREFIX_SCOPE, UNAVAILABLE_TAGNAME_MAPPING, NON_BUILTIN_TAGNAME_MAPPING } = require('../const')
+const {
+  CLASSNAME_PREFIX_ROLE,
+  CLASSNAME_PREFIX_SCOPE,
+  UNAVAILABLE_TAGNAME_MAPPING,
+  NON_BUILTIN_TAGNAME_MAPPING,
+} = require('../const')
 
 const COMMON_ATTR_MAPPING = {
   'wx:if': 'a:if',
@@ -16,8 +21,13 @@ const COMMON_ATTR_MAPPING = {
 
 module.exports = async function(source, { layer, config, warning, scope }) {
   const transformNode = (node, root) => {
+    function addClass(classname) {
+      node.attribs.class = [classname, node.attribs.class]
+        .filter(Boolean)
+        .join(' ')
+    }
     function tagName(before, after) {
-      node.attribs[DATASET_NAME_ROLE] = before
+      addClass(`${CLASSNAME_PREFIX_ROLE}${before}`)
       node.name = after
     }
 
@@ -85,7 +95,7 @@ module.exports = async function(source, { layer, config, warning, scope }) {
        * add scope id
        */
       if (layer === LAYER.COMPONENT) {
-        node.attribs[`${DATASET_PREFIX_SCOPE}${scope}`] = null
+        addClass(`${CLASSNAME_PREFIX_SCOPE}${scope}`)
       }
     }
   }
