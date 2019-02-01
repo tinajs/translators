@@ -1,0 +1,6 @@
+<template>
+  <view class="foo {{ foo != 'foo' && foo || foo ? 'bar' : 'baz' }}" wx:if="{{ qux }}">
+    foo {{ foo != 'foo' && foo || foo ? "bar" : 'baz' }}
+    {{ qux }}
+  </view>
+</template>

@@ -125,3 +125,14 @@ test('component', macro, {
   },
   snapshots: ['/template/component.axml'],
 })
+
+test('mustache', macro, {
+  chainWebpack: config => {
+    config.entry('/template/mustache.js').add('./template/mustache.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  snapshots: ['/template/mustache.axml'],
+})

@@ -2,6 +2,8 @@ const Handler = require('domhandler')
 const { Parser } = require('htmlparser2')
 const render = require('htmlparser-to-html')
 
+render.configure({ disableAttribEscape: true })
+
 /**
  * forked from https://github.com/jordancalder/walkers/blob/master/lib/walkers.js
  */
