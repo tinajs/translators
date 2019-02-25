@@ -1,6 +1,6 @@
 {
   "name": "@tinajs/translator-ant",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tina.js translator for Alipay Mini Program",
   "main": "lib/index.js",
   "files": [
