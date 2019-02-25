@@ -1,6 +1,6 @@
 const Handler = require('domhandler')
 const { Parser } = require('htmlparser2')
-const render = require('htmlparser-to-html')
+const render = require('./htmlparser-to-html')
 
 render.configure({ disableAttribEscape: true })
 
