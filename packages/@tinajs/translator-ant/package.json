@@ -1,6 +1,6 @@
 {
   "name": "@tinajs/translator-ant",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Tina.js translator for Alipay Mini Program",
   "main": "lib/index.js",
   "files": [
@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/template": "^7.2.2",
-    "@tinajs/translator-utils": "^0.0.0",
+    "@tinajs/translator-utils": "^0.0.1",
     "camel-case": "^3.0.0",
     "domutils": "^1.7.0",
     "hasha": "^3.0.0",

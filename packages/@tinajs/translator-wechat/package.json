@@ -1,6 +1,6 @@
 {
   "name": "@tinajs/translator-wechat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Tina.js translator for Wechat Mini Program",
   "main": "lib/index.js",
   "files": [
@@ -40,6 +40,6 @@
   },
   "dependencies": {
     "@babel/template": "^7.2.2",
-    "@tinajs/translator-utils": "^0.0.0"
+    "@tinajs/translator-utils": "^0.0.1"
   }
 }

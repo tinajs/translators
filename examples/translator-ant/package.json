@@ -1,7 +1,7 @@
 {
   "name": "examples-translator-ant",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "author": "yelo",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@tinajs/mina-entry-webpack-plugin": "^1.0.8",
     "@tinajs/mina-loader": "^1.4.0",
     "@tinajs/mina-runtime-webpack-plugin": "^1.1.0",
-    "@tinajs/translator-ant": "^0.0.0",
+    "@tinajs/translator-ant": "^0.0.1",
     "babel-loader": "^8.0.4",
     "cross-env": "^5.1.1",
     "file-loader": "^1.1.5",
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@tinajs/tina": "^1.4.0",
-    "@tinajs/translator-utils": "^0.0.0",
+    "@tinajs/translator-utils": "^0.0.1",
     "wxio": "0.x"
   }
 }
