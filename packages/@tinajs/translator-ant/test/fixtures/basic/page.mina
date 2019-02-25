@@ -13,6 +13,8 @@ text.blue {
 <template>
   <view>
     <text class="blue">{{msg}}</text>
+    <input value="green" />
+    <image src="http://a.b/c.d" />
   </view>
 </template>
 

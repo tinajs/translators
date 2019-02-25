@@ -95,12 +95,10 @@ var html = function(item, parent, eachFn) {
             orig = parent
           }
           result +=
-            '>' +
-            html(item.children, orig, eachFn) +
-            (emptyTags[item.name] ? '' : '</' + item.name + '>')
+            '>' + html(item.children, orig, eachFn) + '</' + item.name + '>'
         } else {
           if (emptyTags[item.name]) {
-            result += '>'
+            result += ' />'
           } else {
             result += '></' + item.name + '>'
           }
