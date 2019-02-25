@@ -53,3 +53,14 @@ test('tagname-polyfill', macro, {
   },
   snapshots: ['/style/tagname-polyfill.acss'],
 })
+
+test('component', macro, {
+  chainWebpack: config => {
+    config.entry('/style/component.js').add('./style/component.mina')
+    config.module
+      .rule('mina')
+      .use('mina')
+      .options(translator())
+  },
+  snapshots: ['/style/component.acss'],
+})

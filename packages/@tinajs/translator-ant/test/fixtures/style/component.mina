@@ -1,0 +1,14 @@
+<config>
+{
+  "component": true
+}
+</config>
+
+<style>
+.icon {
+  color: #000;
+}
+.icon:before {
+  color: #000;
+}
+</style>

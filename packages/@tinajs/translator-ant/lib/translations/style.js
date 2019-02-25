@@ -77,8 +77,14 @@ module.exports = async function(source, { config, scope, layer }) {
      * add scope id
      */
     if (layer === LAYER.COMPONENT) {
+      let last
+      selector.each(current => {
+        if (current.type !== 'pseudo') {
+          last = current
+        }
+      })
       selector.insertAfter(
-        selector.last,
+        last,
         selectorParser.className({
           value: `${CLASSNAME_PREFIX_SCOPE}${scope}`,
         })
