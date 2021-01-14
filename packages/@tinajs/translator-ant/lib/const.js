@@ -17,7 +17,6 @@ const NON_BUILTIN_TAGNAME_MAPPING = {
   'live-player': 'view',
   'live-pusher': 'view',
   'open-data': 'view',
-  ad: 'view',
   'official-account': 'view',
 }
 
