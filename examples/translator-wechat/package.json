@@ -30,8 +30,8 @@
     "postcss-loader": "^7.0.1",
     "precss": "^4.0.0",
     "rimraf": "^2.6.2",
-    "webpack": "^4.23.1",
-    "webpack-cli": "^3.3.12"
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   },
   "dependencies": {
     "@tinajs/tina": "^1.4.0",
